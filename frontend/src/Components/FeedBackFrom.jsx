@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { setLoading } from '../Redux State/Slices/UserSlice';
 // import supabase from '../Utils/Supabase';
 // import { setLoading } from '../Redux/Slice/userSlice';
+import supabase from '../Database/Supabase';
 
 function FeedBackForm({closeForm}) {
 
@@ -13,80 +14,80 @@ function FeedBackForm({closeForm}) {
     const userDetails = useSelector((state)=>state.user.userDetails)
     const dispatch = useDispatch()
 
-    // const submitForm = async (e) => {
-    //     e.preventDefault();
+    const submitForm = async (e) => {
+        e.preventDefault();
 
-    //     if (!userDetails || !userDetails.id) {
-    //         toast.error("Please login first");
-    //         return;
-    //     }
+        if (!userDetails || !userDetails.id) {
+            toast.error("Please login first");
+            return;
+        }
 
-    //     try {
-    //         // Check if a feedback already exists for this user
-    //         dispatch(setLoading(true))
-    //         const { data: existingFeedback, error: fetchError } = await supabase
-    //         .from("feedbacks")
-    //         .select("*")
-    //         .eq("user_id", userDetails.id)
-    //         .maybeSingle(); // ✅ avoids throwing if no row
+        try {
+            // Check if a feedback already exists for this user
+            dispatch(setLoading(true))
+            const { data: existingFeedback, error: fetchError } = await supabase
+            .from("feedbacks")
+            .select("*")
+            .eq("user_id", userDetails.id)
+            .maybeSingle(); // ✅ avoids throwing if no row
 
-    //         if (fetchError) {
-    //         console.error("Fetch error:", fetchError);
-    //         toast.error("Error checking existing feedback");
-    //         return;
-    //         }
+            if (fetchError) {
+            console.error("Fetch error:", fetchError);
+            toast.error("Error checking existing feedback");
+            return;
+            }
 
-    //         if (existingFeedback) {
-    //         // ✅ Feedback exists → update
-    //         const { error: updateError } = await supabase
-    //             .from("feedbacks")
-    //             .update({
-    //             message_type: messageType,
-    //             message: message,
-    //             created_at: new Date(), // optional update timestamp
-    //             })
-    //             .eq("user_id", userDetails.id);
+            if (existingFeedback) {
+            // ✅ Feedback exists → update
+            const { error: updateError } = await supabase
+                .from("feedbacks")
+                .update({
+                message_type: messageType,
+                message: message,
+                created_at: new Date(), // optional update timestamp
+                })
+                .eq("user_id", userDetails.id);
 
-    //         if (updateError) {
-    //             console.error("Update error:", updateError);
-    //             toast.error("Failed to update feedback.");
-    //             return;
-    //         }
+            if (updateError) {
+                console.error("Update error:", updateError);
+                toast.error("Failed to update feedback.");
+                return;
+            }
 
-    //         toast.success("Feedback updated!");
+            toast.success("Feedback updated!");
             
-    //         } else {
-    //         // ✅ No feedback yet → insert new
-    //         const { error: insertError } = await supabase
-    //             .from("feedbacks")
-    //             .insert([
-    //             {
-    //                 user_id: userDetails.id,
-    //                 message_type: messageType,
-    //                 message: message,
-    //             }
-    //             ]);
+            } else {
+            // ✅ No feedback yet → insert new
+            const { error: insertError } = await supabase
+                .from("feedbacks")
+                .insert([
+                {
+                    user_id: userDetails.id,
+                    message_type: messageType,
+                    message: message,
+                }
+                ]);
 
-    //         if (insertError) {
-    //             console.error("Insert error:", insertError);
-    //             toast.error("Failed to submit feedback.");
-    //             return;
-    //         }
+            if (insertError) {
+                console.error("Insert error:", insertError);
+                toast.error("Failed to submit feedback.");
+                return;
+            }
 
-    //         toast.success("Feedback submitted!");
-    //         }
+            toast.success("Feedback submitted!");
+            }
 
-    //         setMessage("");
-    //         setMessageType("suggestions");
-    //         closeForm();
-    //         dispatch(setLoading(false))
+            setMessage("");
+            setMessageType("suggestions");
+            closeForm();
+            dispatch(setLoading(false))
 
-    //     } catch (error) {
-    //         console.error("Unexpected Error:", error);
-    //         toast.error("Unexpected Error: " + error.message);
-    //         dispatch(setLoading(false))
-    //     }
-    // };
+        } catch (error) {
+            console.error("Unexpected Error:", error);
+            toast.error("Unexpected Error: " + error.message);
+            dispatch(setLoading(false))
+        }
+    };
 
 
   return (
