@@ -1,11 +1,8 @@
 
 import React, { useState } from 'react';
-// import Navigation from './Navigation';
-
 import { toast } from 'react-toastify';
 import {useDispatch, useSelector} from "react-redux"
 import { useNavigate } from 'react-router-dom';
-import Navigation from '../../Components/Navigation';
 import { setLoading } from '../../Redux State/Slices/UserSlice';
 import Spinner from '../../Components/Spinner';
 import supabase from '../../Database/Supabase';
