@@ -3,14 +3,10 @@ import { useDropzone } from "react-dropzone";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {useNavigate} from "react-router-dom"
-// import supabase from "../Utils/Supabase";
 import supabase from "../../Database/Supabase"
 import { BsFilePdf } from "react-icons/bs";
 import { setLoading, setPdfData ,setBankNames} from "../../Redux State/Slices/UserSlice";
 import Spinner from "../../Components/Spinner";
-const API_KEY = "b38f4d14-5576-11f0-abaf-0e95e6419978"
-const MODEL_ID = "a50e6126-a111-4fd6-bdfe-c72394397ae7"
-
 const BASE_URL = "https://bank-statement-converter-2nlj.onrender.com/"
 
 
