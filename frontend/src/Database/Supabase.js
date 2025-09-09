@@ -14,8 +14,8 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPEBASE_URL
-const supabaseKey = import.meta.env.VITE_SUPEBASE_KEY// Use anon key on frontend only!
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;// Use anon key on frontend only!
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default supabase;
